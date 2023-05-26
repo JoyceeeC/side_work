@@ -1,18 +1,5 @@
 
-let data = [
-    // {
-    //     content: "work 1",
-    //     state: "undo"
-    // },
-    // {
-    //     content: "work 2",
-    //     state: "undo"
-    // },
-    // {
-    //     content: "work 3",
-    //     state: "undo"
-    // },
-];
+let data = [];
 
 const cardList = document.querySelector(".card_list");
 const list = document.querySelector(".list");

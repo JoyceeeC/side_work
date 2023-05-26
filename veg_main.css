@@ -59,7 +59,7 @@ body {
 }
 
 .btn-type:hover,
-.btn-type:active {
+.btn-type.active {
   background: #f8d45a;
 }
 
@@ -128,6 +128,16 @@ body {
 
 .sort-content {
   margin-bottom: 1.25rem;
+}
+
+.table-wrapper{
+  position: relative;
+  height: 400px;
+  overflow: auto;
+}
+.table-head{
+  position: sticky;
+  top: 0;
 }
 
 .market thead {
