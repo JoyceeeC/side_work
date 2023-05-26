@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO LIST</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>TODO LIST</h1>
+        <div class="card input">
+            <input type="text" placeholder="請輸入待辦事項" class="txt" />
+            <a href="#" class="btn_add"> + </a>
+        </div>
+
+        <div class="card card_list">
+            <ul class="tab filter">
+                <li class="active" data-value="all">全部</li>
+                <li data-value="undo">待完成</li>
+                <li data-value="finished">已完成</li>
+            </ul>
+
+            <div class="cart_content">
+                <ul class="list">
+                </ul>
+
+                <div class="list_footer">
+                    <p class="countData"></p>
+                    <a class="cleanfini"  href="#">清除已完成項目</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+
+
+</body>
+
+</html>
