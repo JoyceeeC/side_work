@@ -67,6 +67,16 @@ const addBtn = document.querySelector(".btn_add");
 
 addBtn.addEventListener("click", function (e) {
     e.preventDefault();
+    addNewItem();
+});
+
+txt.addEventListener('keyup', function(event) {
+    if (txt.value && event.keyCode === 13) {
+        addNewItem();
+    }
+  });
+
+  function addNewItem() {
     cardList.classList.remove("hide")
 
     if (txt.value == "") {
@@ -86,11 +96,9 @@ addBtn.addEventListener("click", function (e) {
     const undoTab = document.querySelector("li[data-value=undo]");
     activeItem.classList.remove("active");
     undoTab.classList.add("active");
+  }
 
-
-});
-console.log(data);
-
+  
 //Delete Data
 list.addEventListener("click", function (e) {
     if (e.target.getAttribute("class") !== "delete") {

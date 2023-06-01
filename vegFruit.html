@@ -24,8 +24,8 @@
 
       <div class="seach-group d-flex flex-column flex-md-row justify-content-md-center ">
         <div class="crop-input d-flex mb-2">
-          <label class="rounded-start text-white" for="crop">作物名稱</label>
-          <input class="rounded-end searchTxt" type="text" placeholder="請輸入作物名稱" id="crop" name="crop" oninput="searchChanged(event)" >
+          <label class="rounded-start text-white text-center" for="crop">作物名稱</label>
+          <input class="rounded-end searchTxt text-center" type="text" placeholder="請輸入作物名稱" id="crop" name="crop" oninput="searchChanged(event)" >
         </div>
         <!-- <button type="button" class="search text-white btn mb-2 ms-2">搜尋</button> -->
       </div>
@@ -42,7 +42,7 @@
         </select>
       </div>
       <div class="table-wrapper">
-        <table class="market table me-4">
+        <table class="market table me-4" >
           <thead class="js-sort-advanced table-head">
             <tr>
               <th width="15%">作物名稱</th>
@@ -58,7 +58,7 @@
               <th width="14%">
                 <div class="inline-flex sort-advanced">中價
                   <span>
-                    <i data-price="中價" data-sort="up" class="fas fa-caret-up"></i>
+                    <i data-price="中價" data-sort="up" class="fas fa-caret-up" ></i>
                     <i data-price="中價" data-sort="down" class="fas fa-caret-down"></i>
                   </span>
                 </div>

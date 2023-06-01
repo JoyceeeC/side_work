@@ -1,23 +1,28 @@
 
 let mydata = [];
+const veggieURL = "https://raw.githubusercontent.com/JoyceeeC/side_work/main/veggie.json";
+
 //取得資料
+
 function getData() {
-
-    const veggieURL = "https://raw.githubusercontent.com/JoyceeeC/side_work/main/veggie.json";
-
     axios.get(veggieURL)
         .then(r => {
-            mydata = r.data;
-
-            for (let i = mydata.length - 1; i >= 0; i--) {
-                if (mydata[i]["作物名稱"] == null) {
-                    mydata.splice(i, 1);
-                }
-            };
-
+            mydata = r.data.filter(el => {
+                return el.作物名稱;
+                // return (el.作物名稱 && el.作物名稱.match(crop.value.trim()))
+            });
             DataCheck(mydata);
         });
-};
+}
+//資料裡面有個別資料的 "作物名稱" 是 null 型別。 我們使用 axios 獲取到的資料，不一定每筆資料都是有完整填寫的。有可能因為原始資料的缺漏，造成我們收集到不符合預期的資料，而產生錯誤。
+//因此我們需要對 get 到的資料，進行數據處理。
+//解決方法：
+//第一種方法是在 get 資料時，就篩選出 "作物名稱" 確實有值的資料 (過濾掉空值、null、undefined)
+// 使用 filter，先過濾作物名稱為 null 的資料
+// data = response.data.filter(item => item.作物名稱)
+// 增加條件判斷。第二種方法是在進行搜尋時，確保資料的 "作物名稱" 有值，讓 match 方法能夠正常運作。
+// return (item.作物名稱 && item.作物名稱.match(crop.value.trim()))
+
 
 getData();
 const showList = document.querySelector('.showList');
@@ -31,10 +36,9 @@ function DataCheck(mydata) {
         mydata.forEach(el => {
             str += renderData(el);
         });
-        console.log("mydata", mydata);
 
     } else {
-        // str = "<h3>查詢結果並無符合條件，請重新搜尋。<h3> <br > <h3>No Data Found,Pleasw Search Again. </h3>"
+        str = ` <h4 class="mt-2 ms-auto">請輸入欲查詢項目。<h4>`
     }
     showList.innerHTML = str;
 }
@@ -42,7 +46,6 @@ function DataCheck(mydata) {
 
 //畫面渲染
 function renderData(obj) {
-    //   console.log(obj);
     return ` <tr>
         <td> ${obj["作物名稱"]} </td>
         <td> ${obj["市場名稱"]} </td>
@@ -56,8 +59,6 @@ function renderData(obj) {
 
 //tabFilter
 const tabFilter = document.querySelector(".tabFilter");
-const searchTxt = document.querySelector(".searchTxt");
-
 let activeItem = document.querySelector(".active");
 
 tabFilter.addEventListener("click", function (e) {
@@ -65,6 +66,7 @@ tabFilter.addEventListener("click", function (e) {
         return;
     }
 
+    activeItem = document.querySelector(".active");
     if (activeItem) {
         activeItem.classList.remove("active");
     }
@@ -81,70 +83,64 @@ tabFilter.addEventListener("click", function (e) {
 
     showList.innerHTML = str;
 
-
-    // const searchValue = searchTxt.value
-
-    // if (searchValue !== 0) {
-    //     const searchItems = mydata.filter(el => {
-    //         return el["作物名稱"].includes(searchValue)
-    //     });
-    //     DataCheck(searchItems);
-    // } else {
-    //     DataCheck(mydata);
-    // }
-
-
-
 });
 
 //關鍵字搜尋
+let searchItems = []
+const searchTxt = document.querySelector(".searchTxt")
+
 function searchChanged(event) {
     const searchValue = event.currentTarget.value;
 
-    const searchItems = mydata.filter(el => {
-        return el["作物名稱"].includes(searchValue)
-    });
+    if (searchValue) {
+        searchItems = mydata.filter(el => {
+            return el["作物名稱"].includes(searchValue)
+        })
+
+    };
+
     DataCheck(searchItems);
 
-    const activeItem = document.querySelector(".active");
     if (activeItem) {
         activeItem.classList.remove("active");
     }
-    if (searchItems) {
+    if (searchItems.length) {
         const tabType = searchItems[0]["種類代碼"]
 
         const activeNew = document.querySelector(`button[data-type=${tabType}]`);
         activeNew.classList.add("active");
-    } else {
-        activeItem.classList.remove("active");
-
     }
-
 
 }
 
-// const searchBtn = document.querySelector(".search")
+// Enter搜尋
+searchTxt.addEventListener('keyup', function (event) {
+    const searchValue = searchTxt.value
 
-// searchBtn.addEventListener('click' , function () {
-
-//     const searchValue = searchTxt.value;
-
-//     const searchItems = mydata.filter(el => {
-//         return el["作物名稱"].includes(searchValue)
-//     });
-//     DataCheck(searchItems);
-
-//     console.log("searchItems", searchItems);
-
-// });
+    if (searchValue && event.keyCode === 13) {
+        searchItems = mydata.filter(el => {
+            return el["作物名稱"].includes(searchValue)
+        })
+    }
+    DataCheck(searchItems);
 
 
-//Filter Option
+    if (activeItem) {
+        activeItem.classList.remove("active");
+    }
+    if (searchItems.length) {
+        const tabType = searchItems[0]["種類代碼"]
+
+        const activeNew = document.querySelector(`button[data-type=${tabType}]`);
+        activeNew.classList.add("active");
+    }
+});
+
+
+//Sort Option
 const select = document.querySelector('.sort-select');
 
-
 function selectFilter() {
-    console.log(select.value);
     const switchValue = select.value;
 
     switch (switchValue) {
@@ -168,15 +164,40 @@ function selectFilter() {
     }
 }
 
-function sortTable(columnName){
+function sortTable(columnName, sort = "desc") {
+    let newData = []
 
-    const newData = mydata.sort( (a,b) =>
-
-        a[columnName] < b[columnName]? 1 : -1 
-
-    )
+    if (searchItems.length) {
+        newData = searchItems.sort((a, b) =>
+            sort === 'desc'
+                ? b[columnName] - a[columnName]
+                : a[columnName] - b[columnName]
+        )
+    } else {
+        newData = mydata.sort((a, b) =>
+            sort === 'desc'
+                ? b[columnName] - a[columnName]
+                : a[columnName] - b[columnName]
+        )
+    }
     DataCheck(newData)
+
 }
+
+//advanced sort
+const jsSortAdvanced = document.querySelector(".js-sort-advanced");
+
+jsSortAdvanced.addEventListener("click", function (e) {
+
+    const dataPrice = e.target.getAttribute("data-price");
+    let dataSort = e.target.getAttribute("data-sort");
+    dataSort = (dataSort == "up") ? "desc" : "asc"
+
+    sortTable(`${dataPrice}`, `${dataSort}`);
+
+})
+
+
 
 
 

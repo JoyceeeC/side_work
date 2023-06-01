@@ -40,6 +40,7 @@ body {
     margin: 1.25rem auto;
   }
 }
+
 .main {
   background: #fff;
   border: 5px solid rgba(255, 248, 212, 0.3529411765);
@@ -51,6 +52,7 @@ body {
     padding: 0.75rem;
   }
 }
+
 .btn-type {
   padding: 0.5rem 2.5rem;
   color: #2a2a2a;
@@ -69,9 +71,9 @@ body {
     margin: 0 0.375rem 1rem 0;
   }
 }
+
 .seach-group {
   white-space: nowrap;
-  margin-bottom: 2.5rem;
   width: 100%;
 }
 
@@ -84,12 +86,12 @@ body {
 .crop-input label {
   background: #899e39;
   padding: 0.5rem 1rem;
-  width: 27.5%;
+  width:30%;
 }
 
 .date-input input,
 .crop-input input {
-  width: 80%;
+  width: 68%;
   border: 2px #899e39 solid;
   padding: 0.375rem;
   margin-left: -0.3125rem;
@@ -105,14 +107,17 @@ body {
   .seach-group {
     margin-bottom: 1.5rem;
   }
+
   .date-input,
   .crop-input {
     width: 100%;
   }
+
   .search {
     width: 100%;
   }
 }
+
 .sort-select {
   appearance: none;
   -moz-appearance: none;
@@ -130,12 +135,13 @@ body {
   margin-bottom: 1.25rem;
 }
 
-.table-wrapper{
+.table-wrapper {
   position: relative;
   height: 400px;
   overflow: auto;
 }
-.table-head{
+
+.table-head {
   position: sticky;
   top: 0;
 
@@ -158,6 +164,7 @@ body {
     white-space: nowrap;
   }
 }
+
 @media (max-width: 767px) {
   .mobile-select {
     appearance: none;
@@ -167,9 +174,11 @@ body {
     background-position: 60px 3px;
   }
 }
+
 .sort-advanced {
   position: relative;
 }
+
 
 .fa-caret-up,
 .fa-caret-down {
@@ -184,6 +193,11 @@ body {
 .fa-caret-down {
   top: 9px;
   right: -15px;
+}
+
+.fas:hover {
+  color: #899e39;
+  transform: scale(1.6);
 }
 
 /*# sourceMappingURL=veg_main.css.map */
